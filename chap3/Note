@@ -1,0 +1,65 @@
+8 Kiểu dữ liệu nguyên thủy giống C
+
+Khai báo biến, khởi tạo giống C
+Kiểu long có suffix L, kiểu Float có suffix F
+
+Khai báo hằng bằng từ khóa final thay vì const. Nhớ khởi tạo giá trị cho nó
+
+Phép gán và tính toán số học giống C
+
+++ -- ... giống C
+
+Thứ tự thực hiện phép toán giống C
+
+Casting giống C.
+Thứ tự cast có độ chính xác tăng dần byte->short->int->long->float->double
+
+Giới thiệu lớp java.text.NumberFormat;
+Có thể định dạng về tiền tệ, phần trăm, thập phân
+
+Để format về dạng tiền tệ có $ ở đầu
+static NumberFormat getCurrencyInstance(){}
+String format(anyType){}
+
+Để format về %
+static NumberFormat getPercentInstance(){}
+String format(anyType){}
+
+Để format về thập phân
+static NumberFormat getNumberInstance(){}
+setMaximumFractionDigits(int )
+String format(anyType)
+
+Có thể dùng các hàm toán học trong lớp java.lang.Math
+round()
+pow()
+sqrt()
+max()
+min()
+random()
+
+Có thể dùng class Integer và Double để tận dụng các
+phương thức tiện ích mà nó cung cấp
+Có thể chuyển đổi từ String thành Number và ngược lại
+parseint()
+toString()
+parseDouble()
+toString()
+
+Có thể tạo số thập phân lớn lên đến 16 chữ số từ lớp BigDecimal
+BigDecimal(int)
+BigDecimal(double)
+BigDecimal(long)
+BigDecimal(String)
+Có thể dùng các phương thức sau:
+add(value)
+compareTo(value)
+divide(value, scale, rounding-mode)
+multiply(value)
+setScale(scale, rounding-mode)
+subtract(value)
+toString()
+
+RoundingMode enum từ java.math.RoundingMode
+Hai giá trị trong enum: HALF_UP và HALF_EVEN
+
