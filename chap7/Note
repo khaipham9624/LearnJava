@@ -1,0 +1,60 @@
+Một ứng dụng có thể có kiến trúc multi-layered/
+multi-tiered
+
+Một ứng dụng có thể ở three-tiered gồm
+- Presentation layer : gồm Presentation classes
+- Middle layer: gồm Business classes
+- Database layer: gồm database classes và Database
+
+Có thể biểu diễn classes bằng UML
+Dấu - sẽ thể hiện trường/phương thức cho nội bộ class dùng
+Dấu + sẽ thể hiện trường/phương thức cho cả class khác dùng
+Thể hiện tính đóng gói/encapsulation - để người dùng không
+cần quan tâm bên trong lớp là gì/implement thế nào
+
+Xem cách tạo class trên IDE
+
+Để code một class thì cần những gì?
+Access modifier, Class name, Member, method...
+
+Constructor là gì?
+Là phương thức có tên giống với tên class, không có
+kiểu dữ liệu trả về
+Được dùng để khởi tạo đối tượng của class đó
+
+Để code method, cần khai báo access modifier, tên method,
+giá trị trả về, parameters
+
+Để overload method, bạn có thể tạo một method giống với
+method bạn muốn overload nhưng thay đổi kiểu/số lượng tham số
+
+Từ khóa this dùng để chỉ đến đối tượng đang thao tác
+
+Khởi tạo đối tượng bằng từ khóa new và tên lớp(parameter)
+
+Gọi method bằng <class name>.<method>(parameters)
+
+Khi truyền kiểu nguyên thủy thì chỉ có truyền giá trị của biến
+cho nên không thể thay đổi được trực tiếp
+
+Khi truyền object thì có thể thay đổi vì nó là reference type
+
+Một biến static có thể khai báo bằng từ khóa static
+
+Để dùng biến static ta dùng cú pháp
+<class name>.<static variable>
+
+static block dùng để khảo tạo một field mà cần nhiều hơn
+một statement
+static{
+    try{
+        String url = "abc";
+        String user = "xyz";
+        String password = "nmopq";
+        connect = DriverManager.getConnection(url, user, password);
+    }
+    catch(Exception e){
+        System.out.println("exception"!);
+    }
+}
+
