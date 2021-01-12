@@ -1,0 +1,24 @@
+Sẽ có các trường hợp Java throws ra Exception
+
+Exception có phân cấp theo cây
+
+Lớp Exception là lớp đầu của cây phân cấp
+
+Xem console để biết Exception nào xảy ra và xem stack trace
+
+Muốn handle có thể dùng try và catch
+
+try{
+// Block may throw exception
+}
+catch(Exception e){
+// handle Exception e
+}
+
+Khi scan ta có thể dùng các phương thức sau để kiểm tra
+đầu vào và hạn chế gây ra exception
+hasNext()
+hasNextInt()
+hasNextDouble()
+nextLine()
+
