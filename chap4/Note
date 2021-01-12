@@ -1,0 +1,8 @@
+Các phép so sánh giống với C
+
+So sánh chuỗi bằng phương thức
+equals(String)
+equalsIgnoreCase(String)
+
+Logical operator giống C
+
