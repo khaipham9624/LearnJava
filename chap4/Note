@@ -6,3 +6,18 @@ equalsIgnoreCase(String)
 
 Logical operator giống C
 
+If/else giống C
+
+Switch giống C
+Có thể dùng String để switch
+
+Vòng lặp giống C
+
+Break và continue giống C
+
+Để code một static method ta theo định dạng
+<access modifire> static <return type> <methodname> (parameter){}
+
+Gọi static method bằng các
+<classname>.<methodname>(parameter);
+Không cần tạo đối tượng
