@@ -1,0 +1,65 @@
+Dùng // để comment một dòng
+
+Dùng /* và */ để comment nhiều dòng
+
+
+Đặt tên cho identifiers bắt đầu chữ cái, gạch dưới hoặc đô la, sau ký tự đầu tiên
+có thể dùng chữ cái, gạch dưới, đô la hoặc số
+
+
+Java có phân biệt hoa thường
+
+Đặt tên có nghĩa, không quá dài hoặc quá ngắn,
+các biến tạm như i,j,k,m,n để chạy vòng lặp thì ok
+
+
+Để code một lớp, bắt đầu với "<access modifier> class <classname> {}" */
+
+Bên trong class là các method */
+
+Phương thức main là nơi bắt đầu chương trình, khai báo bằng cách sau:
+public static void main(String[] args) {}
+
+
+khai báo biến giống với C, literal float nhớ thêm suffix f,
+áp dụng camel notation để đặt tên biến
+
+
+Phép gán giống C */
+
+Expression giống C */
+
+tạo chuỗi bằng String object */
+
+Cộng chuỗi bằng phép +
+
+Sử dụng ký tự đặc biệt bằng escape sequences như C
+
+Tạo object bằng "<classname> <variable> = new <classname>(parameter)"
+
+Gọi method bằng <variable>.<method>(parameter)
+
+Có thể gọi static method mà không cần tạo object bằng cách <classname>.<method>(parameter)
+
+Để dùng class từ package khác, ta có thể import bằng "import <package>.<subpackage>.<classname>"
+Có thể dùng dấu * thay cho <classname> nếu muốn import hết
+Để dùng class thì gọi <package>.<subpackage>.<classname>
+
+Để biết cách dùng các Java class có sẵn, có thể tìm API Document của nó
+để tìm hiểu
+https://docs.oracle.com/en/java/javase/11/docs/api/index.html
+
+Để in ra console, ta dùng System.out.println("")
+Để nhập từ console, ta tạo đối tượng scanner, input từ bàn phím
+Scanner sc = new Scanner(System.in);
+int a = sc.nextInt(); để nhập số integer... tương tự...
+
+So sánh số học giống C
+
+So sánh chuỗi bằng phương thức equals("") hay equalsIgnoreCase("")
+
+If else giống C
+
+While giống C
+
+Tìm google để biết các lỗi như runtime error, syntax error hay exception...
