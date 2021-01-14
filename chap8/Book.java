@@ -17,7 +17,7 @@ public final class Book extends Product{
     }
 
     @Override
-    String getDisplayTex() {
+    public String getDisplayTex() {
         return super.toString() +
                 "Author:                " + author + "\n";
     }

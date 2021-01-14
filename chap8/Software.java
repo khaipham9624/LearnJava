@@ -17,7 +17,7 @@ public class Software extends Product{
     }
 
     @Override
-    String getDisplayTex() {
+    public String getDisplayTex() {
         return super.toString() +
                 "Version:               " + version + "\n";
     }

@@ -1,4 +1,6 @@
 package basic.LearnJava.chap8;
+import basic.LearnJava.chap9.Printable;
+
 import java.text.NumberFormat;
 
 public abstract class Product {
@@ -11,6 +13,12 @@ public abstract class Product {
         code = "";
         description = "";
         price = 0;
+    }
+
+    public Product(String code, String description, double price) {
+        this.code = code;
+        this.description = description;
+        this.price = price;
     }
 
     public void setCode(String c){
@@ -63,6 +71,6 @@ public abstract class Product {
         return false;
     }
 
-    abstract String getDisplayTex();
+    public abstract String getDisplayTex();
 }
 
