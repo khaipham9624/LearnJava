@@ -1,0 +1,62 @@
+Java không cho phép đa kế thừa như C++
+Tuy nhiên có có thể làm điều tương tự với kiểu interface
+
+Cả abstract class và interface đều chứa abstract method và các static constant
+không được khởi tạo
+Tuy nhiên abstract có thể chứa các trường kiểu khác, nó có thể define static
+và method thông thường. Ở khía cạnh này abstract mạnh hơn interface
+
+Điểm khác nhau quan trọng chữa abstract class và interface là một class
+có thể chỉ được kế thừa duy nhất một class có thể là abstract hoặc không
+nhưng có thể implement nhiều hơn một interface. Đây là lợi thế của interface
+Đây là các Java cung cấp tính năng của đa kế thừa
+
+Interface có thể được coi là một kiểu
+Khi lớp Book implement interface Printable thì lớp Book cũng là kiểu Printable
+
+Một vài Interface của Java API:
+Cloneable - để identify lớp này có thể clone được
+Comparable - để identify lớp này có thể so sánh được
+Hầu hết trường hợp bạn sẽ không xác định được lớp nào lớn hơn lớp nào khi
+implement Comparable
+Thường thì Comparable để bạn sắp xếp mảng vì điều này cần thiết để xét phần
+tử nào lớn/nhỏ hơn
+
+Một interface sẽ được viết nghiêng
+
+Một interface rỗng gọi là tagging interface
+
+Khi code một interface, bạn sẽ chỉ định public theo sau là tên inteface có đuôi able hoặc er ví du
+Cloneable Comparable EventListener ActionListener ...
+Ví dụ
+public interface Printable(){
+    int COUNT = 0;
+    void print();
+}
+
+public interface Cloneable(){
+}
+
+public interface DepartmentConstants{
+    int ADMIN = 1;
+    int EDITORIAL = 2;
+    int MARKETING = 3;
+}
+
+Mọi method của interface đề tự động là public abstract
+Mọi trường tự động là public static final
+Method không thể là static
+
+Để implement một interface bạn phải dùng từ khóa implement <tên interface> sau
+tên lớp và phải implement/override mọi method của interface
+
+Dùng interface như một parameter ? Thử đi!
+private static void printMultiple(Printable p, int count){
+    for (int i = 0; i < count; i++){
+        p.print();
+    }
+}
+Nhờ interface mà ta có thể chắc chắn rằng mọi p đều in được
+
+Một interface có thể kế thừa các interface khác bằng từ khóa extends
+
