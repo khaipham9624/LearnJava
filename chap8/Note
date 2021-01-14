@@ -1,0 +1,80 @@
+Kế thừa cho phép bạn tạo class dựa trên class khác
+
+Nếu kế thừa đúng, bạn sẽ đơn giản hóa thiết kế chung của ứng dụng
+
+Subclass sẽ kế thừa các trường, constructors, methods của superclass
+
+Dùng từ khóa extend để kế thừa superclass
+
+Có thể override method của superclass
+
+Lớp kế thừa còn được gọi là subclass/derived class/child class
+
+Lớp được kế thừa được gọi là baseclass/ parent class/ super class
+
+Các lớp trong java tự động kế thừa lớp java.lang.Object
+Các method thường dùng:
+toString()
+equals(Object)
+getClass() - trả về Class object
+clone() - implement interface Cloneable trước khi dùng
+hashCode() - lấy hash code của object
+finalize() - được gọi bởi garbage collector để ...
+
+private : chỉ cho phép sử dụng trong nội bộ class
+protected : cho các lớp trong nội bộ, các class cùng package, các lớp kế thừa truy cập,
+và không cho các lớp khác truy cập
+public: dùng bất cứ đâu
+default: ?
+
+Khi override nên thêm @Override như một best practice
+
+Có thể gọi lớp cha bằng từ khóa super, gọi constructor lớp cha bằng super()
+
+Tính đa hình cho phép bạn đối xử với các object khác kiểu như cùng một kiểu
+nếu chúng cùng kế thừa một class
+Ví dụ Book và Software cùng kế thừa Product thì một đối tượng Product
+có thể xem Book và Software như một Product
+Ví dụ lớp ProductDB có method addProduct(Product),
+nó cho phép bạn chọn cả Book và Software vào
+
+Khi ứng dụng Java chạy, nó dùng một lớp tên là Class để keep track tất cả
+các objects mà nó loads. Mỗi object nó loads, Java tạo một đối tượng Class
+chứa các thông tin về object. Điều được nhắc đến như là runtime type identification
+(RTTI).
+getName() trả về tên của this class Object
+Product p = new Book();
+Class c = p.getClass();
+System.out.println(c.getName());
+
+Cast object tương tự với cast số nguyên thủy tuy nhiên cần chú ý là lớp phải
+có mối quan hệ với nhau mới cast được
+Book b = new Book();
+Product p = b;
+b = (Book) p;
+
+Product p2 = new Product();
+Book b2 = (Book) p2; // exception
+
+từ khóa instanceof dùng để kiểm tra object có phải từ một class liên quan đến object kia
+(kế thừa)
+Điều này hữu ích khi override method equals
+
+Một lớp abstract là một lớp không thể khởi tạo / không thể tạo object từ nó trực tiếp
+
+Bên trong abstract class là abstract methods
+Các lớp kế thừa lớp abstract phải override các abstract methods
+
+Từ khóa final dùng cho class, method, parameter để đảm bảo nó không bị override
+hay đổi class/ method/parameter của bạn
+Khi dùng cho class, người khác không thể kế thừa class của bạn
+Khi dùng cho method, người khác không thể override
+Khi dùng cho parameter, người khác không thể assign giá trị mới vào cho nó
+Khi bạn chắc chắc không ai muốn kế thừa lớp của bạn thì dùng final class
+Khi bạn chắc chắc không ai muốn override method của bạn
+Do khó mà biết được nên bạn hãy tránh dùng final cho class và method
+
+
+
+
+
