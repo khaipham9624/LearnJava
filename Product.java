@@ -1,9 +1,8 @@
-package basic.LearnJava.chap8;
-import basic.LearnJava.chap9.Printable;
+package basic.LearnJava;
 
 import java.text.NumberFormat;
 
-public abstract class Product {
+public class Product implements Cloneable, Printable{
     private String code;
     private String description;
     private double price;
@@ -71,6 +70,17 @@ public abstract class Product {
         return false;
     }
 
-    public abstract String getDisplayTex();
+    public String getDisplayText(){return null;}
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    @Override
+    public void print() {
+        System.out.println("Code:\t\t\t\t" + code);
+        System.out.println("Description:\t\t\t\t" + description);
+        System.out.println("Price:\t\t\t\t" + this.getFormattedPrice());
+    }
 }
 

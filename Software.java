@@ -1,6 +1,8 @@
-package basic.LearnJava.chap8;
+package basic.LearnJava;
 
-public class Software extends Product{
+import basic.LearnJava.Product;
+
+public class Software extends Product {
     private String version;
     public Software() {
         super();
@@ -17,7 +19,7 @@ public class Software extends Product{
     }
 
     @Override
-    public String getDisplayTex() {
+    public String getDisplayText() {
         return super.toString() +
                 "Version:               " + version + "\n";
     }

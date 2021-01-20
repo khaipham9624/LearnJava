@@ -1,4 +1,4 @@
-package basic.LearnJava.chap9;
+package basic.LearnJava;
 
 public interface DepartmentConstants {
     int ADMIN = 1;

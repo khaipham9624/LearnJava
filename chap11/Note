@@ -1,0 +1,44 @@
+Để tạo array cần cú pháp
+type[] arrayName;
+arrayName = new type[length];
+Để access arrayName[index];
+Gán giá trị giống C
+
+Khởi tạo giống C
+vd : Product[] p = {new Product("java"), new Product("jsps")};
+
+Loop giống C
+i = 0; i <= array.length; i++
+
+for (type varName : arrayName){
+// foreach
+}
+
+Các method sau có thể dùng cho array
+import java.util.Arrays
+Arrays.fill(arrayName, value)
+Arrays.fill(arrayName, index1, index2, value)
+Arrays.equals(arrayName1, arrayName2)
+Arrays.copyOf(arrayName, length)
+Arrays.copyOfRange(arrayName, index1, index2)
+Arrays.sort(arrayName)
+Arrays.sort(arrayName, index1, index2)
+Arrays.binarySearch(arrayName, value)
+
+Một lớp có thể implement Comparable interface để so sánh
+override phương thức
+public int compareTo(Object o){}
+
+double[] a = {}
+double[] b = a
+Cả 2 đều tham chiếu đến {}
+
+Sau khi tạo array thì k thể đổi size
+
+Có thể dùng biến tham chiếu đến một array khác mới tạo
+
+Có thể dùng copyOf hoặc copyOfRange để copy một array
+
+Mảng 2 chiều
+type[][] arrayName = new type[row][column]
+

@@ -1,8 +1,8 @@
-package basic.LearnJava.chap9;
+package basic.LearnJava;
 
 import java.text.NumberFormat;
 
-public class Employee implements Printable, DepartmentConstants{
+public class Employee implements Printable, DepartmentConstants {
     private int department;
     private String firstName;
     private String lastName;

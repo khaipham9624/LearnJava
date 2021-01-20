@@ -1,0 +1,21 @@
+Khi đặt tên package nên dùng một tên unique cho level1
+
+Package giúp phân loại các lớp và tránh việc conflict tên lớp
+
+Ở đầu một class phải có package, cú pháp package <package name>
+
+Có thể tạo một library bằng các compile code và vào thư mục gốc
+tìm file JAR, file này mặc định chỉ gồm .class chứ k có source code
+Include nó vào project khác để làm thư viện
+
+Để viết doc cho một java class, method... có thể dùng /** */
+Có thể dùng thẻ HTML và các tag @author @version @param @return để viết doc
+
+Để viết một enum, ta có cú pháp public enum <enum name> {VIETHOA1, VIETHOA2}
+Enum là type-safe
+Enum giống như một class
+Có thể override method toString khi các constant kết thúc bằng ;
+
+Static import để dễ reference tới các constants trong enum
+cú pháp import static <package>;
+Thường dùng dấu * để import hết constant của một enum

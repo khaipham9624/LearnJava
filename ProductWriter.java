@@ -1,6 +1,6 @@
-package basic.LearnJava.chap9;
+package basic.LearnJava;
 
-import basic.LearnJava.chap8.Product;
+import basic.LearnJava.Product;
 
 public interface ProductWriter {
     boolean addProduct(Product p);

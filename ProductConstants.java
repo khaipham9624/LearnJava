@@ -1,4 +1,4 @@
-package basic.LearnJava.chap9;
+package basic.LearnJava;
 
 public interface ProductConstants {
     int CODE_SIZE = 4;
