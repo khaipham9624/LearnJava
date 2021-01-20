@@ -1,0 +1,91 @@
+Collection trong java giống như mảng, có thể chứa nhiều objects. Tuy nhiên nó không phải là 1 phần của ngôn ngữ Java, nó là các class được cung cấp với Java API.
+
+ArrayList thực chất là dùng array để chứa data
+Collection ArrayList class biểu hiện giống như một array
+
+Trước ngược với array, collection không có fixed size. Khi tạo collection, bạn không cần phải chỉ rõ size của collection. Thay vào đó bạn chỉ việc thêm bao nhiêu phần tử vào cũng được. Collection sẽ tự động mở rộng cho bạn
+
+Collection không thể chứa được kiểu dữ liệu nguyên thủy mà chỉ chứa được object
+
+Khi dùng collection bạn sẽ không dùng index như array. Bạn có thể dùng foreach của java để loop trên collection
+
+Collection có thể dùng generic để chứa một kiểu object bất kỳ nào. Ví dụ
+ArrayList<String> list = new ArrayList<String>();
+để tạo một list chỉ chứa String
+LinkedList<Product> list = new LinkedList<Product>();
+
+Để khai báo một lớp generic
+public class ClassName<TypeVar1, TypeVar2>{}
+public class MyList<E>{}
+
+Dùng ArrayList
+import java.util.ArrayList;
+Các constructor
+ArrayList<E>()
+ArrayList<E>(intCapacity) khởi tạo số lượng
+ArrayList<E>(Collection) Khởi tạo dựa trên collection có sẵn
+
+Các phương thức
+add(object) để thêm object vào cuối list
+add(index, object) để thêm vào vị trí index
+clear() để xóa hết
+contains(object) kiểm tra list có đối tượng object không
+get(index) lấy đối tượng ở vị trí index
+indexOf(object) lấy vị trí index của đổi tượng object
+isEmpty() kiểm tra list rỗng không
+remove(object) loại bỏ đối tượng object
+remove(index) loại bỏ đối tượng ở index
+set(index, object) gán đối tượng ở index bằng đối tượng object
+size() size của list
+toArray() trả về mảng chứa các phần tử của list
+
+Dùng LinkedList
+Các constructor
+LinkedList<E>()
+
+Các phương thức
+add(object) Thêm đối tượng object vào list
+add(index, object) thêm đối tượng vào index
+addFirst(object) thêm đối tượng vào đầu list
+addLast(object) thêm đối tượng vào cuối list
+clear() xóa hết
+contains(object) kiểm tra có object không
+get(index) lấy object ở index
+getFirst() lấy object ở đầu list
+getLast() lấy object ở cuối list
+indexOf(object) tìm object
+peek() trả về nhưng không remove đối tượng đầu list
+offer(object) Cố gắng thêm một object vào cuối list. Trả về true hoặc false
+poll() trả về và remove object đầu tiên của list, trả về null nếu list rỗng
+remove() remove object đầu tiên, throw Exception nếu rỗng
+remove(index) remove object ở index
+remove(object) remove object
+removeFirst() remove và return object đầu tiên của list
+removeLast() remove và return object cuối của list
+set(index, object) gán object vào index
+size() size
+toArray() trả về mảng chứa tất cả object của list
+
+Dùng maps
+HashMap và TreeMap
+HashMap<K, V>()
+TreeMap<K, V>()
+HashMap không chứa theo sequence - dùng hash table
+TreeMap tự động sắp xếp theo cây - dùng red-black tree
+
+Các phương thức
+clear() xóa hết
+containsKey(key) kiểm tra có key không
+containsValue(value) kiểm tra có value không
+entrySet() trả về set của tất cả entries trong map như Map.Entry object
+get(key) trả về value, trả về null nếu k thấy
+put(key, value) thêm phần tử vào, nếu trùng key thì thay value
+remove(key) xóa phần tử
+size() size
+
+Phương thức của Map.Entry interface
+getKey()
+getValue()
+
+
+Xem thêm một số legacy collection (cũ) như vector, untyped collection.
