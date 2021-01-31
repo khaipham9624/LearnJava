@@ -37,6 +37,7 @@ sqrt()
 max()
 min()
 random()
+https://www.w3schools.com/java/java_math.asp
 
 Có thể dùng class Integer và Double để tận dụng các
 phương thức tiện ích mà nó cung cấp

@@ -1,0 +1,244 @@
+Package java.nio.file
+
+Lớp Paths
+
+Có các method
+get(String[, String]...) truyền path dạng string để trả về object Path
+
+Interface Path có các methods
+getFileName() trả về đối tượng Path cho tên của file hoặc directory
+getName(int) trả về một đối tượng Path cho phần tử ở index
+getNameCount() trả về một int cho số lượng tên phần tử trong path
+getParent() trả về một đối tượng Path cho parent path của một path nếu có. trả
+về null nếu không có parent
+getRoot() trả về đối tượng Path cho root component của path. trả về null nếu
+không có root
+toAbsolutePath() trả về Path cho đường dẫn tuyệt đối đến file/dir
+toFile() trả về một đối tượng File cho path
+
+Các static method của lớp File
+exists(Path) trả về true nếu path tồn tại
+notExists(Path) trả về true nếu path k tồn tại
+isReadable(Path) trả về true nếu path tồn tại và có thể đọc
+isWritable(Path) trả về true nếu path tồn tại và có thể ghi
+isDirectory(Path) trả về true nếu path tồn tại và tham chiếu đến thư mục
+isRegularFile(Path) trả về true nếu path tồn tại và tham chiếu đến regular file
+size(Path) trả về long value cho số bytes của file
+newDirectoryStream(Path) trả về một DirectoryStream<Path> object có thể dùng để
+loop qua tất cả files và subdir của thư mục
+createFile(Path) tạo một file cho Path nếu thư mục chưa tồn tại và mọi parent dir
+tồn tại. trả về một Path
+createDirectories(Path) tạo một thư mục mới đại diện bởi Path bao gồm mọi thứ
+cần thiết nhưng không tồn tại parent dir. trả về một Path
+delete(Path) xóa một file hoặc thư mục
+
+Tóm lại là có thể kiểm tạo file/dir, duyệt dir, kiểm tra file/dir có tồn tại
+hay không, kiểm tra file/dir có đọc/ghi được không, kiểm tra size của file,
+xóa file/dir.
+https://www.javatpoint.com/how-to-create-a-file-in-java
+
+Đọc ghi file trong java
+https://giasutinhoc.vn/lap-trinh/lap-trinh-java-co-ban/doc-va-ghi-file-trong-java-bai-5-2/
+
+Để connect đến character output stream file
+PrintWriter->BufferedWriter->FileWriter
+
+PrintWriter(Writer[, booleanFlush])
+BufferedWriter(Writer)
+FileWriter(File[, booleanAppend])
+FileWriter(StringPathName[, booleanAppend])
+
+Để ghi vào file có thể dùng các method
+print()
+println()
+flush()
+close()
+
+Có thể connect đến character input stream file
+BufferReader(Reader)
+FileReader(File)
+FileReader(StringPathFile)
+
+Để đọc từ file có thể dùng các metho
+readLine()
+read()
+skip(longValue)
+close()
+
+String line = in.readLine();
+while(line != null)
+    line = in.readLine();
+in.close();
+
+
+Có thể connect một binary output stream đến một file
+
+OutputStream <<abstract>>
+    FileOutputStream
+    FilterOutputStream
+        BufferedOutputStream
+        DataOutputStream <<implement DataOutput interface>>
+
+Các class dùng để connect một output stream đến một file
+DataOutputStream
+    -> BufferedOutputStream
+        ->FileOutputStream
+
+Các constructor
+DataOutputStream(OutputStream)
+BufferedOutputStream(OutputStream)
+FileOutputStream(File[, booleanAppend])
+FileOutputStream(StringPathName[, booleanAppend])
+
+DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("products.bin")))
+
+DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("products.bin", true)))
+
+Để ghi vào file có các phương thức
+writeBoolean(boolean)
+writeInt(int)
+writeDouble(double)
+writeChar(int) 2 bytes
+writeChars(String)
+writeUTF(String)
+
+Các phương thức của DataOutputStream class
+size() trả về số bytes đã ghi trên stream
+flush()
+close()
+
+Có thể connect binary input stream đến 1 file
+InputStream {abstract}
+    FileInputStream
+    FilterInputStream
+        BufferedInputStream
+        DataInputStream {Implement DataInput interface}
+
+Các lớp dùng để connect một input stream đến file
+DataInputStream
+    -> BufferedInputStream
+        -> FileInputStream
+
+Constructor của các class
+DataInputStream(InputStream)
+BufferedInputStream(InputStream)
+FileInputStream(File)
+FileInputStream(StringPathName)
+
+DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream("products.bin")))
+
+Để đọc từ file binary
+readBoolean()
+readInt()
+readDouble()
+readChar()
+readUTF()
+skipBytes(int)
+
+Các method của lớp DataInputStream
+available() trả về số byte còn trong file
+close()
+
+while(in.available() > 0){
+    String code = in.readUTF();
+    String description = in.readUTF();
+    double price = in.readDouble();
+    Product p = new Product(code, description, price);
+}
+in.close();
+
+2 cách để làm việc với binary String
+Có thể dùng readChar và writeChar hoặc dùng readUTF và writeUTF
+Ví dụ ghi
+String testString = "This is a test String.\n"
+out.writeUTF(testString);
+int writeSize1 = out.size();
+System.out.println("writeUTF writes " + writeSize1 + "bytes");
+// 25 gồm 2 byte chỉ length, còn lại 22 byte ký tự, 1 byte xuống dòng
+
+out.writeChars(testString);
+int writeSize2 = out.size() - writeSize1;
+System.out.println("writeChars writes " + writeSize2 + " bytes");
+// 46 gồm 2 byte mỗi 23 ký tự kể cả ký tự xuống dòng
+
+Ví dụ đọc
+int totalBytes = in.available();
+
+String string1 = in.readUTF();
+int readSize1 = totalBytes - in.available();
+System.out.println("readUTF reads " + readSize1 + " byte");
+
+int readSize2 = 0;
+String string2 = "";
+int charCount = in.available() / 2;
+for (int i = 0; i < charCount; i++)
+{
+    string2 += inn.readChar();
+    readSize2 += 2;
+}
+System.out.println("readChar reads " + readSize2 + " bytes");
+
+
+Để connect đến một random-access file
+Các constructor
+RandomAccessFile(File, stringMode)
+RandomAccessFile(StringPathName, StringMode)
+
+Access mode values
+r : mở chỉ đọc
+rw : mở để đọc và ghi, nếu file chưa tồn tại sẽ tạo
+rws : đọc, ghi và yêu cầu mỗi khi update data trong file hoặc metadata cho file
+được ghi một cách đồng bộ trên thiết bị lưu trữ
+rwd : mở đọc và ghi và yêu cầu mỗi update data trên file được ghi một cách đồng
+bộ trên thiết bị lưu trữ
+
+RandomAccessFile productsFile = new RandomAccessFile("products.ran", "rw");
+RandomAccessFile productsFile = new RandomAccessFile("products.ran", "r");
+RandomAccessFile productsFile = new RandomAccessFile("products.ran", "rws");
+
+2 interfaces được implement bởi RandomAccessFile
+DataOutput
+DataInput
+
+Các method
+seek(long) seek từ đầu file
+length() trả về số bytes trong file
+setLength(long) set length cho file
+close()
+
+vd1
+RandomAccessFile productsFile = new RandomAccessFile("products.ran", "rw");
+
+String[] codes = {"java", "jsps", "txtp"};
+double[] prices = {49.5, 49.5, 20.0};
+for(int i = 0; i < codes.length; i++)
+{
+    productsFile.writeChars(codes[i]);
+    productsFiles.writeDouble(price[i]);
+}
+productsFile.close();
+
+
+vd2:
+final int RECORD_LENGTH = 16;
+
+RandomAccessFile productsFile = new RandomAccessFile("products.ran", "r");
+
+int recordNumber = 3;
+productsFile.seek((record -1) * RECORD_LENGTH);
+String code = "";
+for (int i = 0; i < 4; i++){
+    code += productsFile.readChar();
+}
+double price = productsFile.readDouble();
+productsFile.close();
+
+
+Khi ghi vào random-access file, bạn chỉ có thể ghi fixed-length string
+Ví dụ bạn tạo một field chứa last name, bạn quyết định dùng 20 ký tự,
+khi bạn ghi ít hơn 20 ký tự, bạn có thể pad field để đủ 20 ký tự. Một cách
+để làm là thêm các Unicode zeros vào cuối field, khi đọc field, bạn sẽ đọc
+đến khi gặp ký tự Unicode zero đầu tiên
+
+
+

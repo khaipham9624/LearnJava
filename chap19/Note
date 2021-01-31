@@ -1,0 +1,206 @@
+XML có thể gồm các element và attribute
+
+DTD là optional, dùng để mô tả cấu trúc của XML
+
+Để làm việc với XML trên Java, StAX là công cụ hữu ích so với DOM và SAX
+javx.sml.stream
+
+Trước khi có thể ghi một XML document, cần phải tạo đối tượng implement inteface
+XMLStreamWriter.
+-
+Bạn có thể dùng lớp XMLOutputFactory
+
+Trước tiên bạn gọi phương thức static newFactory của lớp để tạo một XMLOutputFactory
+Sau đó bạn có thể dùng đối tượng XMLStreamWriter để ghi một XML document
+
+Khi bạn gọi createXMLStreamWriter method, bạn phải cung cấp một tham số kết nối
+XMLStreamWriter đến một output stream. Nếu bạn muốn ghi XML vào một file, bạn cần cung
+cấp đối tượng FileWriter.
+
+Bạn có thể ghi XML vào một output stream bằng cách cung cấp bất kỳ đối tượng nào
+implement lớp abstract OutputStream.
+
+Bởi vì method createXMLStreamWriter ném ra ngoại lệ XMLStreamException nên cần phải
+handle nó khi bạn tạo object.
+Và khi dùng FileWriter thì cũng phải handle IOException
+
+Các lớp để tạo XMLStreamWriter
+javax.xml.stream.XMLOutputFactory;
+javax.xml.stream.XMLStreamException;
+
+Interface để tạo một XMLStreamWriter
+javax.xml.stream.XMLStreamWriter
+
+Các method của XMLOutputFactory class
+newFactory() để tạo factory
+createXMLStreamWriter(out)  để tạo XML Stream writer
+
+VD:
+XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
+try{
+    FileWriter fileWriter = new FileWriter("products.xml");
+    XMLStreamWriter writer = outputFactory.createXMLStreamWriter(fileWriter);
+    // write here
+}
+catch(IOException | XMLStreamException e){
+    System.out.println(e);
+}
+VD2:
+XMLStreamWriter writer = outputFactory.createXMLStreamWriter(System.out);
+vì System.out implement lớp OutputStream
+
+Các method để ghi XML
+writeStartDocument(version) để ghi version
+writeStartElement(name) để ghi thẻ bắt đầu element
+writeAttribute(name, value) để ghi attribute cho element hiện tại
+writeCharacters(value) để ghi characters
+writeComment(value) để ghi XML comment
+writeDTD(value) để ghi một DTD section
+writeEndElement() Để ghi thẻ end
+flush() flush mọi cached data
+close() đóng stream
+
+XML dùng dấu < và > để đánh dấu bắt đầu, kết thúc thẻ nến k thể ghi nó như text
+Nếu dùng những dấu này để ghi như text, XMLStreamWriter sẽ tự động chuyển nó thành các
+escape characters. Tương tự với một số ký tự khác
+XMLStreamReader cũng sẽ tự động hiểu và chuyển ngược nó về thành ký tự đúng
+
+writer.writeStartDocument("1.0");
+writer.writeComment("Product data);
+writer.writeStartElement("Products");
+for(Product p : products)
+{
+    writer.writeStartElement("Product");
+    writer.writeAttribute("Code", p.getCode());
+
+    writer.writeStartElement("Description");
+    writer.writeCharacters(p.getDescription());
+    writer.writeEndElement();
+
+    writer.writeStartElement("Price");
+    writer.writeCharacters(Double.toString(p.getPrice()));
+    writer.writeEndElement();
+
+    writer.writeEndElement();
+}
+writer.writeEndElement();
+writer.flush();
+writer.close();
+
+Các để tạo một XMLStreamReader
+Trước khi đọc XML document, bạn cần phải tạo ột object implemet XMLStreamReader interface
+Để làm điều đó bạn dùng XMLInputFactory
+
+Bạn có thể gọi hàm static newFactory của lớp XMLInputFactory để tạo một XML đối tượng
+XMLInputFactory
+Sau đó bạn gọi createXMLStreamReader để tạo stream reader và có thể đọc XML document.
+
+Khi tạo stream reader, bạn phải cung cấp tham số input để chỉ định input stream
+Nếu bạn muốn đọc từ file thì dùng một đối tượng FileReader bởi vì FileReader implement
+Reader interface và Reader interface là một valid argument đối với createXMLStreamReader
+
+Nếu muốn đọc từ input stream, bạn cần cung cấp một đối tượng implement lớp InputStream
+
+Bạn cũng phải xử lý các ngoại lệ có thể xảy ra
+
+Các lớp để tạo XMLStreamReader object
+javax.xml.stream.XMLInputFactory
+javax.xml.stream.XMLStreamException
+
+Một interface để tạo đối tượng XMLStreamReader object
+javax.xml.stream.XMLStreamReader
+
+Các method
+newFactory()
+createXMLStreamReader(in)
+
+XMLInputFactory inputFactory  = XMLInputFactory.newFactory();
+try
+{
+    FileReader fileReader = new FileRead("products");
+    XMLStreamReader = inputFactory.createXMLStreamReader(fileReader);
+    // read here
+}
+catch(IOException | XMLStreamException e)
+{
+    System.out.println(e);
+}
+
+Bạn có thể dùng các phương thức sau để đọc XML
+hasNext() dùng để kiểm tra liệu còn có parsing event không
+next() để đọc parsing event tiếp theo
+getEventType() trả về một int chỉ ra kiểu của parsing event. Giá trị tương ứng trong
+XMLStreamConstants interface
+getLocalName() trả về tên element hiện tại
+getAttributeValue(index) trả về string của attribute được lưu ở index
+getAttributeCount() trả về số attribute của element hiện tại
+getAttributeLocalName(index) trả về tên của attribute ở index
+getElementText() đọc giá trị của một text-only element. Ngoại lệ nếu k phải text-only
+getText() đọc giá trị của COMMENT, DTD, CHARACTERS, CDATA, hoặc SPACE
+
+Các constants trong XMLStreamConstants interface
+START_ELEMENT event là một start element
+END_ELEMENT event là một end element
+ATTRIBUTE event là một attribute
+CHARACTERS event là một character data
+COMMENT event là một comment
+SPACE event là một sapce
+DTD event là một DTD
+
+Khi bạn handle một START_ELEMENT, bạn có thể dùng getLocalName để lấy tên của element
+tương ứng với thẻ start sẽ xử lí. Sau đó bạn có thể dùng if để xử lí mỗi element
+Khi handle attribute bạn có thể dùng getAttribute để lấy string trong attribute
+Khi element là text, bạn có thể dùng getElementText
+Khi handle END_ELEMENT, bạn có thể dùng getLocalName, sau đó check tên và xử lí
+...
+Có thể cần phải handle IllegalStateException
+
+ArrayList<Product> products = new ArrayList<>();
+Product p = null;
+while(reader.hasNext())
+{
+    int eventType = reader.getEventType();
+    switch(eventType)
+    {
+        case XMLStreamConstants.START_ELEMENT:
+            String elementName = reader.getLocalName();
+            if (elementName.equals("Product"))
+            {
+                p = new Product();
+                String code = reader.getAttributeValue(0);
+                p.setCode(code);
+            }
+            if (elementName.equals("Description"))
+            {
+                String description = reader.getElementText();
+                p.setDescription(description);
+            }
+            if (elementName.equals("Price"))
+            {
+                String priceString = reader.getElementText();
+                double price = Double.parseDouble(priceString);
+                p.setPrice(price);
+            }
+            break;
+        case XMLStreamConstants.END_ELEMENT:
+            elementName = reader.getLocalName();
+            if (elementName.equals("Product"))
+            {
+                products.add(p);
+            }
+        default:
+            break;
+    }
+    reader.next();
+}
+
+Các đọc attribute an toàn hơn
+int count = read.getAttributeCount();
+for (int i = 0 ; i < count ; i++)
+{
+    if (reader.getAttributeLocalName(i).equals("Code"))
+    {
+        String code = read.getAttributeValue(i);
+    }
+}
+

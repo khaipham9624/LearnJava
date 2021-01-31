@@ -1,0 +1,239 @@
+            Throwable
+         _______|_______
+         |              |
+       Error          Exception
+         |          _____|_____________
+      Unchecked     |                  |
+      errors    RuntimeException       |
+                    |                  |
+                 Unchecked           Checked
+                 exceptions          exceptions
+
+Các class kế thừa từ Error thì không thể làm gì khác - mặc kệ chúng
+Các lớp kế thừa Exception thì cần phải handle
+
+Các class kế thừa từ exception có 2 loại: RuntimeException và các exceptions khác
+Các lớp kế thừa từ RuntimeException còn được gọi là Unchecked exception bởi vì
+compiler không buộc bạn phải handle chúng rõ ràng. Ngược lại, compiler buộc bạn
+phải xử lý một số exception một cách rõ ràng, chúng được biết đến như checked exceptions
+
+Unchecked exceptions thường xảy ra vì lỗi coding. Ví dụ như một chương trình cố gắng
+access một index không đúng của một mảng, Java sẽ throw một IndexOutOfBoundsException
+Nếu bạn cẩn thận, bạn có thể chặn các exceptions kiểu này
+
+Checked exceptions thừơng xảy ra vì các trường hợp vượt ngoài kiểm soát của programmer
+như là missing file hoặc bad network connection. Mặc dù bạn có thể tránh chúng
+nhưng bạn có thể viết code handle chúng khi chúng xảy ra
+
+Một số checked Exceptions
+ClassNotFoundException
+IOException
+    EOFException
+    FileNotFoundException
+NoSuchMethodException
+
+Một số unchecked exceptions
+ArithmeticException
+IllegalArgumentException
+    NumberFormatException
+IndexOutOfBoundsException
+    ArrayIndexOutOfBoundsException
+    StringIndexOutOfBoundsException
+NullPointerException
+InputMismatchException
+
+
+Khi một method gặp một vấn đề không thể được xử lý trong nó, nó throws một exception.
+Đa số trường hợp, exceptions được thrown bởi methods từ các class trong Java API
+Sau đó, bất kỳ method gọi một method ném một checked exception phải hoặc là
+ném nó lần nữa hoặc bắt nó và handle. Code bắt và handle exception được biết như
+exception handler.
+
+Sau khi một method ném một ngoại lê, runtime system bắt đầu tìm đến exception handler.
+Để làm điều này, nó tìm qua execution stack trace hay còn gọi là call stack. Stack
+trace là một danh sách các method vừa được gọi theo chiều ngược lại theo thứ tự
+chúng được gọi.
+
+Ví dụ: MethodA gọi MethodB, MethodB gọi MethodC, MethodC gọi MethodD, MethodD ném
+ra ngoại lệ. stack trace giờ là MethodD -> MethodC -> MethodB -> MethodA
+
+MethodA(){
+    try{
+        MethodB();
+    }
+    catch(ExceptionOne e){
+        // handle
+    }
+}
+
+MethodB() throws ExceptionOne {
+    MethodC();
+}
+
+MethodC() throws ExceptionOne{
+    MethodD();
+}
+
+MethodD() throws ExceptionOne
+{
+    throw new ExceptionOne();
+}
+
+Có 2 cách để xử lý Exception: Ném nó tiếp hoặc catch rồi xử lý nó
+
+Khi bạn ném một checked exception ra ngoài bằng coding một throws clause trên mỗi
+method trong call stack, bao gồm main method, chương trình sẽ terminate khi exception
+xảy ra. Sau đó Java sẽ hiển thị nó trên console
+
+Unchecked exception sẽ thực hiện điều tương tự, ngoại trừ bạn không cần phải
+rõ ràng list các unchecked exceptions trong throws clause của một method declaration
+
+
+Để xử lý exception ta có thể dùng try statement
+
+try{
+statements
+}
+[catch (MostSpecificExceptionType e) {
+statement
+}]
+...
+[catch (LeastSpecifucExceptionType e){
+statement
+}]
+[finally {
+statement
+}]
+
+finally block để free system resource được dùng bởi try
+finally block là optional nhưng khi code thì phần lệnh trong nó luôn được thực thi
+
+Bạn phải code finally block để release system resources như nói trên.
+Nhưng sẽ xảy ra trường hợp việc handle code có thể phức tạp logic của một chương
+trình và khiến nó khó đọc và bảo trì
+Do đó Java 1.7 đã cho ra try-with-resources statement.  Nó là một kiểu try
+statment đặc biệt, nó khai báo và khỏi tạo một hoặc nhiều đối tượng dùng
+system resources và tự động đóng các đối tượng và release tài nguyên sau khi try
+statement kết thúc thực thi. Nó cho phép bạn viết ít error handling code và tập trung
+vào logic của chương trình.
+
+Để dùng try-with-resources statement, bạn bắt đầu bằng việc code một set các ngoặc
+đơn. Để tạo nhiều hơn 1 đối tượng, bạn chỉ cần cách các statements khai báo và
+khởi tạo bởi dấu chấm phẩy
+
+Lưu ý là bạn phải implement interface java.lang.AutoCloseable. Tuy nhiên, version Java
+1.7 hầu hết các class trong Java API work với system resources đã được trang bị
+để implement interface này. Bao gồm mọi lớp làm việc với file và database trong
+section 5.
+
+public static String readFirstLine(String path){
+    try(RandomAccessFile in = new RandomAccessFile(path, r))
+    {
+        String line = in.readLine();
+        return line;
+    }
+    catch (FileNotFoundException e)
+    {
+        System.out.println("File not found")
+        return null;
+    }
+    catch(IOException e)
+    {
+        System.out.println("I/O error occurered");
+        return null;
+    }
+}
+
+Một số methods của một exception
+getMessage() trả về exception's message
+toString() trả về Exception's class name và message
+printStackTrace() in exception's class name, message và stack trace ra System.err
+printStackTrace(outputStream) tương tự ở trên nhưng in ra outputStream
+ví dụ:
+catch(IOException e)
+{
+    System.err.println()
+}
+
+Có thể catch cùng lúc nhiều Exception bằng multi-catch
+catch (ExceptionType | ExceptionType [| ExceptionType] ... e){
+    statement
+}
+
+Khi dùng Java APi throws một checked exception thì bạn phải throw hoặc catch nó
+Nếu quyết định không xử lý thì throw nó. Method gọi method bạn đã throw có thể
+throw tiếp hoặc catch...
+Nếu một method có thể throw nhiều hơn một exception, có thể ngăn cách nó bằng dấu
+phẩy
+Ví dụ: Bạn không muốn xử lí IOException thì có thể đánh dấu throws như sau
+public static long getFileLength() throws IOException {
+    RandomAccessFile in = new RandomAccessFile(path, "r");
+    long length = in.length();
+    return length;
+}
+
+Khi code, bạn đôi khi muốn throw một exception. Để làm điều đó, bạn dùng keyword
+new để tạo một object từ lớp exception. Do tất cả exception class đều kế thừa lớp
+Throwable, bạn có thể dùng constructor để tạo một exception.
+Throwable() tạo một exception với message rỗng
+Throwable(message) tạo một exception với message
+
+Ví dụ:
+if (monthlyPayment <= 0)
+    throw new IllegalArgumentException("Monthly payment must be > 0")
+ Nó sẽ gọi Throwable(Message)
+
+try{
+    if (true)
+        throw new IOException("This must be false")
+    else
+        return firstLine
+}
+catch(IOException e){
+    // Handle
+}
+
+Có thể custom exception Bằng cách extends lớp Exception hoặc lớp con của nó
+
+public class DAOException extends Exception{
+    public DAOException(){
+
+    }
+
+    public DAOException(String message){
+        super(message);
+    }
+}
+
+Exception chaining cho phép debug lí do xảy ra Exception
+Các constructor
+Throwable(cause) tạo một exception chỉ ra nguyên nhân
+Throwable(message, cause) tạo exception với message và nguyên nhân
+
+Các method
+getCause() trả về nguyên nhân
+initCause(cause) Set exception cause. Chỉ gọi được 1 lần duy nhất. Nếu bạn khởi
+tạo cause qua constructor thì không thể gọi method này
+
+public class DAOException extends Exception{
+    public DAOException(){
+
+    }
+
+    public DAOException(Throwable cause){
+        super(cause);
+    }
+}
+
+Assertions trong Java
+Mặc định nó bị disable
+Có thể enable nó để testing và debugging một app
+Dùng cờ -ea trong VM options trong Project Properties dialog box
+
+asser booleanExpression [:message];
+ví dụ:
+for (int i = 1; i <= months; i++){
+    futureValue = (futureValue + monthlyInvestment) * monthlyInterestRate;
+}
+assert (futureValue > monthlyInvestment * month) : "FV out of range";
+

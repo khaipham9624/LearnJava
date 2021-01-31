@@ -2,8 +2,10 @@ package basic.LearnJava;
 
 import basic.LearnJava.Product;
 
+import java.util.ArrayList;
+
 public interface ProductReader {
     Product getProduct(String code);
 
-    String getProductsString();
+    ArrayList<Product> getProducts();
 }

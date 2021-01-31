@@ -1,5 +1,7 @@
 package basic.LearnJava;
 
+import java.util.ArrayList;
+
 public class ProductDB implements ProductDAO{
 
 //    public static Product getProduct(String productCode) {
@@ -42,7 +44,7 @@ public class ProductDB implements ProductDAO{
     }
 
     @Override
-    public String getProductsString() {
+    public ArrayList<Product> getProducts() {
         throw new UnsupportedOperationException("Not supported yet");
     }
 

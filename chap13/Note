@@ -1,0 +1,111 @@
+Có thể dùng GregorianCalendar để tạo đối tượng đại diện cho thời điểm đến milisec
+
+Một số constructor
+import java.util.GregorianCalendar;
+GregorianCalendar() trả về date time hiện tại
+GregorianCalendar(year, month, day)
+GregorianCalendar(year, month, day, hour, minute)
+GregorianCalendar(year, month, day, hour, minute, second)
+
+GregorianCalendar now = new GregorianCalendar();
+
+GregorianCalendar là subclass của class Calendar
+
+Một số trường của Calendar
+DATE        DAY_OF_MONTH        DAY_OF_WEEK         DAY_OF_YEAR
+HOUR        HOUR_OF_DAY         MINUTE              MONTH
+SECOND      YEAR                MONDAY...SUNDAY     JANUARY...DECEMBER
+
+Một số method dành cho cả Calendar và GregorianCalendar
+set(intYear, intMonth,...) set giá trị cho năm, tháng,...
+set(intField, intValue) set giá trị cho trường được chỉ định
+setTime(Date) set dựa trên đối tượng Date
+add(intField, intValue) thêm value vào field
+roll(intField, intValue) thêm value vào field nhưng không ảnh hưởng đến field khác
+roll(intField, booleanValue) thêm booleanValue vào field nhưng không ảnh hưởng đến field khác
+get(intField) trả về value của trường
+getTime() trả về đối tượng Date
+
+
+Một số method cho Date
+import java.util.Date;
+Date() -> now
+Date(longMillisecond)
+getTime() -> longMillisecond
+toString() -> string format
+
+Dùng DateFormat để format
+import java.text.DateFormat;
+getDateInstance()
+getTimeInstance()
+getDateTimeInstance()
+getDateInstance(intField)
+getTimeInstance(intField)
+getDateTimeInstance(intField)
+Các field
+Style           Date ex                         Time ex
+SHORT           12/31/10                        12:00 AM
+MEDIUM          Dec 31, 2010                    7:30:00 PM
+LONG            December 31, 2010               7:30:00 AM PST
+FULL            Saturday, December 31, 2010     7:30:00 AM PST
+Method
+Format(Date) - khá giống với NumberFormat
+
+
+Lớp String
+import java.lang.String;
+Các constructor
+String() tạo string rỗng
+String(arrayName) tạo string từ một array char hoặc byte
+String(arrayName, intOffset, intLength) tạo một string từ một subset array char hoặc byte
+
+Các method
+length() trả về độ dài string
+indexOf(String)  trả về giá trị int của chuỗi đầu tiên gặp được trong chuỗi
+indexOf(String, startIndex) như trên nhưng bắt đầu từ startIndex
+lastIndexOf(String) trả về vị trí cuối cùng của String trong chuỗi
+lastIndexOf(String, startIndex) như trên nhưng bắt đầu từ startIndex
+trim() trả về một String bị loại bỏ space ở đầu và cuối
+substring(startIndex) trả về String từ startIndex đến cuối string
+substring(startIndex, endIndex) trả về string từ đầu đến endIndex
+replace(oldChar, newChar) trả về String thay thế mọi kí tự oldChar thành newChar
+split(delimiter) trả về mảng các String đã chia bởi delimter
+charAt(index) trả về char value ở index
+
+Để so sánh Strings
+equals(String) trả về true nếu bằng/false nếu k bằng, có so viết hoa
+equalsIgnoreCase(String) như trên nhưng không so sánh hoa thường
+startsWith(String) trả về true nếu string bắt đầu với String
+startsWith(String, startIndex) trả về true nếu string bắt đầu với String ở index
+endsWith(String) tương tự
+isEmpty() ...
+compareTo(String) nếu bằng thì return 0, nhỏ hơn String thì trả về < 0,
+lớn hơn thì trả về >0, có tính hoa thường
+compareToIgnoreCase(String) như trên, không tính hoa thường
+
+
+StringBuilder
+java.lang.StringBuilder;
+Bởi vì String sẽ không thay đổi được length và ký tự trong nó, nên StringBuilder
+sẽ là lớp giải quyết được vấn đề này
+
+Các constructor
+StringBuilder() tạo một đối tượng với 16 ký tự
+StringBuilder(intLength) tạo một đối tượng với số ký tự mong muốn
+StringBuilder(String) tạo một đối tượng từ String
+
+Các method
+capacity() trả về capacity của đối tượng
+length() trả về length
+setLength(intNumOfChars) chỉ định số ký tự
+append(value) thêm value vào cuối string
+insert(index, value) thêm value vào index và đẩy phần còn lại về sau
+replace(startIndex, endIndex, String) thay các ký tự từ startIndex, không bao gồm
+endIndex
+delete(startIndex, endIndex) xóa substring từ startIndex, không bao gồm endIndex
+deleteCharAt(index) xóa ký  tự ở index
+setCharAt(index, character) thay thế ký tự ở index thành character
+charAt(index) trả về ký tự ở index
+substring(index) trả về đối tượng String chứa các ký tự bắt đầu từ index đến cuối
+substring(startIndex, endIndex) trả về đối tượng String chứa các ký tự từ start đến end
+toString() trả về String
