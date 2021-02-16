@@ -1,0 +1,296 @@
+Khi dùng JDBC (Java Database Connectivity) để làm việc với db, bạn cần phải dùng db driver
+để giao tiếp
+
+Bốn kiểu driver
+Để bắt đầu, Java application dùng JDBC driver manager để load một db driver. Sau đó Java app
+có thể dùng một hoặc nhiều kiểu driver để connect tới database và tận dùng data
+
+bạn có thể dùng một type-1, JDBC-ODBC bridge driver để connect đến một db qua ODBC (Open db
+connectivity), một cách chuẩn để access db. Vì ODBC driver tồn tại cho hầu hết db, mmoojt type-1
+driver cung cấp một cách để connect Java với hầu hết các kiểu db. Vì một type-1 driver được
+include trong JDK, nó sẵn có cho mọi Java programmers. Tuy nhiên, đối với một type-1 driver
+để làm việc, một ODBC data source phải được đăng ký trên một clien machine. Bởi vì điều này
+thường là một công đoạn nhàm chán, khác nhau với từ OS, bạn sẽ muốn tránh kiểu này khi có thể
+
+Bạn có thể dùng type-2, native protocol partly java driver để connect đến một db không dùng
+ODBC. Giống như ODBC, driver này yêu cầu răng vài binary code được install trên mỗi client
+machine. Kết quả là bạn sẽ muốn dùng type-3 hoặc type-4 driver nếu bạn có kế hoạch phân phối
+ứng dụng trên nhiều client machine
+
+Bạn có thể dùng type-3, net protocol all Java driver để connect đén một db bằng việc convert
+JDBC gọi đến một giao thức mạng độc lập được dùng bởi một specific vendor. Sau đó, middleware
+software của vendor chạy trên một server sẽ convert giao thức mạng thành các lời gọi trong
+native protocol được dùng bởi DBMS. Bời vì middleware software có thể thường convert giao thức
+mạng thành native DBS protocol cho nhiều db, giải pháp này là linh hoạt nhất
+
+Bạn có thể dùng type-4, native protocol all java driver để connect tới một db. Kiểu này chạy trên
+server, convert JDBC calls trực tiếp thành native ĐMS protocol. Vì hầu hết DBS protocols là
+độc quyền, các kiểu driver này sẵn có cho Derby, MySQL, Oracle, IBM DB2 và MS SQL Server
+
+Cho bất kỳ ứng dụng quan trọng, bạn sẽ dùng type-3 và type-4 driver.Bạn có thể tải type-4
+driver cho hầu hết db từ db vendor's website. Hoặc tìm trên internet các type-3 và type-4
+
+Phải thêm file JDBC jar vào project mới có thể sử dụng db
+
+Cách để load database driver
+JDBC 4.0 giới thiệt một tính năng automatic driver loading. Feature này load
+db driver tự động. Khi dùng JDK từ 1.6 trở về sau thì không cần phải load
+db driver. Tuy nhiên nếu JDK cũ hơn thì phải dùng method forName của lớp
+Class. đường dẫn đến Driver sẽ nằm trong thư mục connector jar
+try
+{
+    Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+}
+catch(ClassNotFoundException e)
+{
+    //
+}
+
+Để connect đến db
+dùng Connection connection = DriverManager.getConnection(url, user, passwd);
+để tạo connection đến mysql. Nếu db khác có thể dùng lớp khác
+url = "jdbc:mysql://localhost:3306/studentmanagement"
+user = "root"
+passwd = "root"
+
+Để disconnect, bạn có thể dùng method close cho connection
+
+Cách để làm việc với db
+Sau khi đã có connection đến db với một driver support JDBC thì code sẽ giống
+nhau bất kể bạn đang dùng db nào
+
+Để làm việc với db, bạn bắt đầu bằng việc lấy result set nhờ vào lớp ResultSet
+Bạn có thể dùng nó để insert, update, delete record trong db.
+
+Bạn phải tạo đối tượng Statement để dùng và nó sẽ trả về đối tượng ResultSet
+khi bạn thực thi statements
+
+Statement statement = connection.createStatement(); //forward-only, read-only
+// Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+ ResultSet.CONCUR_UPDATABLE); // scrollable, updatable
+ResultSet rs = statement.executeQuery(sqlQueryString);
+
+CONCUR_UPDATABLE làm một CONSTANT trong concurrency
+5 ResultSet fields set type and concurrency
+TYPE_FORWARD_ONLY : Tạo một result set nơi cursor chỉ có thể move forward
+TYPE_SCROLL_INSENSITIVE : tạo một result set nơi cursor có thể scroll qua
+result set nhưng sẽ không display các thay đổi được made bởi những nơi/người
+khác đến result set
+TYPE_SCROLL_SENSITIVE : tạo một result set nơi cursor có thể scroll qua result
+set và display các thay đổi bởi những nơi/người khác đến result set
+CONCUR_READ_ONLY : tạo một read-only result set (default)
+CONUR_UPDATABLE : tạo một updatable result set
+
+Cách để move cursor qua một result set
+Bạn có thể move cursor qua một result set. Một vài db driver có thể không
+support hết các method này, đặc biệt là những db driver làm việc với scrollable
+result sét
+Nếu rs là một forward-only rs, bạn sẽ chi có thể dùng method next để move
+beforeFirst() move cursor trước row đầu tiên
+afterLast() move cursor sau row cuối
+first() move con trỏ đến row đầu
+previous() move con trỏ đến row trước
+next() move con trỏ đến row kế
+last() move con trỏ đến row cuối
+absolute(intRow) move con trỏ đến row intRow
+relative(intRow) move con trỏ intRow so với row hiện tại
+isBeforeFirst() kiểm tra con trỏ có ở trước first
+isAfterLast() kiểm tra con trỏ có ở sau last
+isFirst() kiểm tra con trỏ có ở first
+isLast() kiểm tra con trỏ có ở last
+close() để giải phóng rs's JDBC và db resources
+getRow() để trả về int value chỉ thứ tự của row hiện tại
+
+Để làm việc với forward-ony rs
+while(rs.next())
+{
+    //
+}
+rs.close();
+
+Để làm việc với scrollable rs
+rs.first();
+rs.last();
+if(rs.isFirst() == false)
+    rs.previout();
+if(rs.isLast() == false)
+    rs.next();
+rs.absolute(4);
+rs.relative(-2);
+rs.relative(3);
+
+Cách để trả data từ rs
+getString(intColumnIndex)
+getString(StringColumnName)
+getDouble(intColumnIndex)
+getDouble(StringColumnName)
+
+index bắt đầu bằng 1
+
+String code = rs.getString(1);
+String description = rs.getString(2);
+double price = rs.getDouble(3);
+
+String code = rs.getString("ProductCode");
+String description = rs.getString("Description");
+double price = rs.getDouble("Price");
+
+Product p = new Product(code, description, price);
+
+Xem ResultSet interface trong doc bạn sẽ thấy get methods tồn tại cho mọi kiểu
+nguyên thủy cũng như cho các kiểu data khác. Ví dụ như Date, Time và timestamp
+Thêm nữa còn có BLOB và CLOB.
+
+Cách để modify data
+Dùng method executeUpdate cho đối tượng Statement để add, update và delete.
+Method này có từ JDBC 1.0 và được support ảo trong mọi db drivers.
+
+Để dùng executeUpdate, bạn pass một SQL statement vào db. Để làm điều đó,
+bạn code combine data từ một Product object với SQL statement thích hợp.
+Khi bạn dùng JDBC 2.0 API, bạn không cần phải dùng SQL statement. Thay vào
+đó, bạn chỉ gọi method ResultSet object để add, update và delete rows từ
+current rs.
+
+Để thêm một row, bạn gọi moveToInsertRow method để move cursor đến một buffer
+đặc việc được dùng để construct một new row. Sau đó bạn gọi update method
+thích hợp cho mỗi column trong row. Ví dụ, bạn gọi updateString cho string
+updateDouble cho double... Ở đây, tham số đầu tiên chỉ tên của column, và
+thứ hai chỉ giá trị columns. Khi bạn cung cấp xong, bạn gọi insertRow để
+commit thay đổi đến db. Sau đó bạn có thể gọi moveToCurrentRow để move back về
+row bạn đã đứng trước khi gọi moveToInsertRow
+Để Update hoặc delete một row, bạn bắt đầu bằng việc move đến row bằng method
+đã nói trước. Sau đó bạn có thể update bằng method update thích hợp cho bất kỳ
+column bạn muốn update và bằng việc gọi updateRow method sau đó. hoặc bạn có
+thể delete một row bằng việc gọi deleteRow
+
+Tùy vào driver bạn đang dùng, việc modify mà bạn tạo ra đối với một rs có thể
+gây ra vài problem. Ví dụ bạn add row, bạn có thể không thể move đến row đó.
+Tệ hơn, khi bạn xóa một row, một invalid row có thể remain trong rs nơi row
+đã bị xóa. Sau đó bạn cố move đến row đó, app của bạn throw một SQLException.
+Cách tốt nhất để giải quyết vấn đề này là tìm một driver tốt hơn hoặc đổi
+cách bạn lập trình để nhận data. Tuy nhiên, bạn có thể đôi khi giải quyết
+vấn đề này bằng cách đóng rs và mở nó lại. Mặc dù nó không hiệu quả, nó thường
+refresh tất cả các row trong rs.
+
+Để thêm một row:
+String insertStmt = "insert into Products (ProductCode, Description, Price) " +
+"values ('" + p.getCode() + "', " +
+"'" + p.getDescription() + "', " +
+p.getPrice() + ")";
+int count = stmt.executeUpdate(insertStmt);
+
+Cách để update một row
+String updateStatement = "Update Products set " +
+                         "values ('" + p.getCode() + "', " +
+                         "'" + p.getDescription() + "', " +
+                         p.getPrice() + " " +
+                         "where ProductCode = '"+ p.getCode() +"'";
+int count = statement.execute.Update(updateStatement);
+
+Xóa một row
+String deleteStatement = "delete from Products" +
+"where ProductCode = '" +p.getCode() +"'";
+int count = statement.executeUpdate(deleteStatement);
+
+JDBC 2.0
+Thêm row
+rs.moveToInsertRow();
+rs.updateString("ProductCode", p.getCode());
+rs.updateString("Description", p.getDescription());
+rs.updateDouble("Price", p.getPrice());
+rs.insertRow();
+rs.moveToCurrentRow();
+
+update Row
+rs.updateString("ProductCode", p.getCode());
+rs.updateString("Description", p.getDescription());
+rs.updateDouble("Price", p.getPrice());
+rs.updateRow();
+
+Xóa row
+rs.deleteRow();
+
+Làm việc với prepared statement
+Khi dùng prepared statement, bạn include các placeholders trong statement
+cho các parameters, values của chúng sẽ thay đổi. Trước khi thực thi, bạn set
+values cho các parameters.
+Prepared statements cung cấp 2 lợi ích chính. Đầu tiên là vì db có thể cache
+và reuse prepared statement, chúng thực thi nhanh hơn các statement thường.
+Thứ hai là prepared statement bảo mật hơn vì chúng chặn SQL injection.
+Do đó, bạn nên dùng prepared statement bất kỳ đâu có thể
+
+Để trả về một rs
+String selectProduct =
+    "Select ProductCode, Description, Price " +
+    "From products " +
+    "where ProductCode = ?";
+PreparedStatement ps = connection.prepareStatement(selectProduct);
+ps.setString(1, p.getCode());
+ResultSet rs = ps.executeQuery();
+
+Để update một record
+String selectProduct =
+    "Update Products " +
+    "set Description = ?, Price = ? " +
+    "Where ProductCode = ?";
+PreparedStatement ps = connection.preparedStatement(updateProduct);
+ps.setString(1, p.getDescription());
+ps.setDouble(2, p.getPrice());
+ps.setString(3, p.getCode());
+int count = ps.executeUpdate();
+
+Để insert một record
+String insertProduct =
+    "Insert into Products (ProductCode, Description, Price)" +
+    "values (?, ?, ?)";
+PreparedStatement ps = connection.preparedStatement(insertProduct);
+ps.setString(1, p.getCode());
+ps.setString(2, p.getDescription());
+ps.setDouble(3, p.getPrice());
+int count = ps.executeUpdate();
+
+Để xóa một record
+String deleteProduct =
+    "delete from Products " +
+    "where ProductCode = ? ";
+PreparedStatement ps = connection.prepareStatement(deleteProduct);
+ps.setString(1, p.getCode());
+int count = ps.executeUpdate();
+
+Dấu ? là placeholder
+Bạn sẽ cung cấp giá trị cho các dấu ? đó
+
+Để select thì dùng executeQuery
+Để insert, update, delete thì dùng executeUpdate
+
+Làm việc với metadata
+Khi bận làm việc với result set, bạn có thể nhận được data về định nghĩa
+của result set. Kiểu thông tin này được biết đến như metadata. Ví dụ,
+metadata của một rs gồm số lượng cột, tên cột, và kiểu dữ liệu chứa trong cột.
+Mặc dù làm việc với metadata là kỹ năng nâng cao nhưng bạn không cần nó
+cho các ứng dụng business.
+
+ResultSetMetaData metaData = resultSet.getMetaDate();
+Một số phương thức:
+getColumnCount()
+getColumnName(intColumn) -> String
+getColumnLabel(intColumn) -> String
+getColumnType(intColumn) -> int
+getColumnTypeName(intColumn) -> String
+
+Map giữa kiểu dữ liệu trong SQL và Java
+varchar, Longvarchar        -> String
+bit                         -> boolean
+tinybit                     -> byte
+smallbit                    -> short
+integer                     -> int
+bigint                      -> long
+real                        -> float
+double                      -> double
+varbinary, longvarbinary    -> byte[]
+numeric                     -> java.math.BigDecimal
+date                        -> java.sql.Date
+time                        -> java.sql.Time
+timestamp                   -> java.sql.Timestamp
+
+
