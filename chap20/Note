@@ -1,0 +1,27 @@
+Derby là một hệ quản trị cơ sở dữ liệu quan hệ được bao gồm trong Java từ SE6
+
+Khi Derby được nhúng vào một chương trình client, nó được biết đến như một embedded database
+và nó chạy trên cùng process với chương trình đó
+Khi Derby được chạy tách riêng với server và được access bởi nhiều multiple client application
+thì nó được gọi là networked database.
+Các db thường chạy như networked db khác như Oracle, MySql, DB2, SQL Server. Mặc dù phiên bản của
+các db này có thể chạy trên cùng client, nhưng db chạy nó trong một process tách riêng khỏi
+application dùng nó.
+Neeys bạn muốn db chạy cùng process như client application, bạn phải dùng một embedded
+db như Derby
+
+Bạn phải dùng command-line để tương tác với Derby
+
+Thuận lợi
+- free
+- độc lập platform
+- dựa trên Java, JDBC và SQL standard
+- nằm trong JDK
+- tốn ít bộ nhớ (2.6MB)
+- có thể chạy trên client và embedded trong một ứng dụng Java
+- có thể chạy trên server và access bởi nhiều client
+
+Bất lợi
+- không cung cấp GUI
+- không dùng cho db lớn, thương mại
+
