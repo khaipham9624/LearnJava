@@ -1,0 +1,79 @@
+Lớp Thread kế thừa Object và Implement interface Runnable
+
+Để tạo một thread, bạn có thể dùng 1 trong 2 kỹ thuật
+1 là tạo một lớp kế thừa lớp Thread, sau đó override method run()
+method này chứa code thực thi bởi thread. Sau đó bạn có thể khởi tạo lớp
+để tạo một thread
+
+2 là tạo một thread để define một lớp implement Runnable interface. Bạn phải
+override method run(). Sau đó bạn có thể pass một instance của lớp này vào
+constructor của lớp Thread. Việc này tạo một thread thực thi đối tượng Runnable
+bằng cách gọi method run()
+
+Các phương thức
+start       Thread              Đăng ký thread này với thread scheduler
+run         Runnable, Thread    chạy thread
+sleep       Thread              cho thread ngủ, để CPU chạy thread khác
+wait        Object              đợi thread khác gọi notify hoặc notifyAll
+notify      Object              báo cho thread ngẫu nhiên đang đợi trên object này có thể resume
+notifyAll   Object              Báo cho mọi thread đang đợi trên object này có thể resume
+
+5 trạng thái của Thread
+New
+Runnable
+Blocked
+Waiting
+Terminated
+
+Cách tạo một thread
+Các constructor
+Thread()
+Thread(Runnable)
+Thread(String)
+Thread(Runnable, String)
+
+Các method
+run() implement code được thực thi bởi thread
+start() đặt một thread trong trạng thái runnable để nó có thể được chạy
+bởi thread scheduler
+getName() lấy tên của thread
+currentThread() tham chiếu đến thread đang thực thi
+setDaemon(boolean) nếu true, thread sẽ là daemon. Nó sẽ end khi thread tạo
+ra nó kết thúc
+sleep(long) ngủ trong long millisec
+interrupt() interrupt một thread
+isInterrupted() true nếu thread vừa được interrupt
+yield() static method gợi ý cho thread scheduler rằng thread hiện tại đang
+muốn yield để threads khác có thể run. Thread scheduler có thể hoặc không dùng
+gợi ý này. Kết quả là bất kỳ khi nào dùng method này nên được kiểm tra toàn
+bộ để đảm bảo nó dung cấp kết quả như mong muốn trên mọi hệ thống
+
+Tạo thread bằng kế thừa Thread
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Thread t1 = Thread.currenThread();
+        System.out.println(t1.getName() + " started.");
+        Thread t2 = new IOThread();
+        t2.start();
+        System.out.println("t1.getName() + " starts " + t2.getName() + ".");
+        System.out.println(t1.getName() + " finished");
+    }
+}
+
+public class IOThread extends Thread
+{
+    @Override
+    public void run()
+    {
+        System.out.println(this.getName() + " started.");
+        try
+        {
+            Thread.sleep(2000);
+        }
+        catch(InterruptException e){}
+        System.out.println(this.getName() + " finished.");
+    }
+}
+
